@@ -30,18 +30,18 @@ And you're good to start playing with the library :).
 The config object is composed by the following items:
 
 Item | Type | Description
------------- | -------------
+------------ | ------------- | -------------
 **dev** | Boolean | dev enable/disable the logs (Errors and warning are shown anyway).
 **ext** | Array | Path for extensions are set here, the extensions are loaded once the init method is called.
 **info**| Object| contain general string info about the library
 **methods** | Object | contain the methods map.
 **settings**| Object | Item | Type | Description
-                       ------------ | -------------
+                       ------------ | ------------- | -------------
                        **contentType** | String | Set the default contentType, used if is not defined in the request.
                        **accept**      | String | Set the default accept, used if is not defined in the request.
                        **cache**       | Object | Cache system settings
                                                   Item | Type | Description
-                                                  ------------ | -------------
+                                                  ------------ | ------------- | -------------
                                                   **enabled** | Boolean | Enable/disable the caching system.
 
 ### Methods ###
@@ -103,11 +103,11 @@ Api.get(requests).then(function(response){
 The request object is composed by the following items:
 
 Item | Type | Description
------------- | -------------
+------------ | ------------- | -------------
 **url** | String | *Mandatory*, set the URL of the resource to be called, you can insert parameters placeholders in order to populate dynamic path parameters.
 **params** | Object | *Optional*, Params contains the data to be passed in path or as query string data, a passed param is first replaced in the URL if a placeholder with the same key is found, otherwise is added in query string.
 **body** | Object | *Optional*, Body is the object that has to be passed as the actual payload, in GET method this data are managed as params.
 **settings** | Object | *Optional*, Settings contain all those beatiful params you could add on Ajax requests, such as "crossDomain" or "async".
 **headers** | Object | *Optional*, I know, could sound strange, but headers actually contain headers (could you believe that?) to be passed along with the request.
-**contentType** | String | Set the content-type of the request (override the default one in configuration).
-**accept** | String | Set the accept parameter of the request (override the default one in configuration).
+**contentType** | String | Set the content-type of the request (override the default one from configuration).
+**accept** | String | Set the accept parameter of the request (override the default one from configuration).
