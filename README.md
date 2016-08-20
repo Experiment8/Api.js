@@ -35,14 +35,7 @@ Item | Type | Description
 **ext** | Array | Path for extensions are set here, the extensions are loaded once the init method is called.
 **info**| Object| contain general string info about the library
 **methods** | Object | contain the methods map.
-**settings**| Object | Item | Type | Description
-                       ------------ | ------------- | -------------
-                       **contentType** | String | Set the default contentType, used if is not defined in the request.
-                       **accept**      | String | Set the default accept, used if is not defined in the request.
-                       **cache**       | Object | Cache system settings
-                                                  Item | Type | Description
-                                                  ------------ | ------------- | -------------
-                                                  **enabled** | Boolean | Enable/disable the caching system.
+**settings**| Object | Default settings for requests, and enable/disable caching system.
 
 ### Methods ###
 **Init**
