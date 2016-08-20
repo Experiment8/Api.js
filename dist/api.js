@@ -293,6 +293,9 @@ function api(){
         Dependency initialization. */
         init: function(config, callback){
 
+            /** Extend configuration with the passed one */
+            $.extend(true, Api.config, config);
+
             /** Initialize extensions */
             initializeExtensions().then(function(){
 
