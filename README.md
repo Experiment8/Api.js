@@ -4,7 +4,7 @@ A Promises based Asynchronous calls library, for multiple requests at the same t
 This library, based on jQuery, helps to achieve a large number of REST calls without writing a lot of code. Really useful for parallel calls but also for consecutive ones.
 
 ### Necessary dependencies ###
-Apart from jQuery, the only needed dependency, in ext folder, are helpers and [js-md5]{@link https://github.com/emn178/js-md5} (this one is optional for caching system keys).
+Apart from jQuery, the only needed dependency, in ext folder, are helpers and [js-md5](@link https://github.com/emn178/js-md5) (this one is optional for caching system keys).
 
 ## Fist steps ##
 Include Api.js in your HTML page:
