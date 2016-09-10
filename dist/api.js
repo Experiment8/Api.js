@@ -243,6 +243,8 @@ function api(){
         Dependency configuration. */
         config  : {
 
+            /** Bae paths settings */
+
             dev: true,
 
             /** Extensions */
@@ -284,6 +286,28 @@ function api(){
         /** CACHE
         Call cache for faster response. */
         cache   : {},
+
+        /** BUILD
+        Object constructors. */
+        build   : {
+
+            /** Request object constructor */
+            Request: function(url, params){
+
+                if(!url){
+                    console.error(Api.config.info.name + ': At least url must be passed to create Request object.');
+                    return false;
+                }
+
+                /** Set url */
+                this['url'] = url;
+
+                /** Set params */
+                if(params){ this['params'] = params };
+
+            }
+
+        },
 
         /** PUBLIC METHODS
         Public methods can be called from outside the dependency.
