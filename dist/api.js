@@ -139,6 +139,11 @@ function api(){
             delete request.params;
         };
 
+        /** If url has no http add api base url */
+        if(url.indexOf('http') < 0){
+            url = Api.config.paths.api + url;
+        };
+
         /** If there is already cache for the call, return directly the cached response */
         if(Api.config.settings.cache.enabled && loadCache(request)){
             var cache = new Promise(function(resolve){
@@ -243,7 +248,11 @@ function api(){
         Dependency configuration. */
         config  : {
 
-            /** Bae paths settings */
+            /** Base paths settings */
+            paths: {
+                base    : '',
+                api     : ''
+            },
 
             dev: true,
 
@@ -298,6 +307,11 @@ function api(){
                     console.error(Api.config.info.name + ': At least url must be passed to create Request object.');
                     return false;
                 }
+
+                /** If url has no http add api base url */
+                if(url.indexOf('http') < 0){
+                    url = Api.config.paths.api + url;
+                };
 
                 /** Set url */
                 this['url'] = url;
