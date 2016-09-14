@@ -52,16 +52,14 @@ function api(){
     correct ajax object request. */
     function generateAjaxObject(request){
 
-        /** Check content type */
-        if(!request.contentType) { request.contentType = Api.config.settings.contentType; }
-
         /** Generate arguments with fixed values */
         var data = {};
 
-        data['url']            = request.url;
-        data['method']         = request.method;
-        data['accept']         = request.accept;
-        data['contentType']    = request.contentType;
+        data['url']    = request.url;
+        data['method'] = request.method;
+
+        if(request.accept){         data['accept']        = request.accept; }
+        if(request.contentType){    data['contentType']   = request.contentType; }
 
         if(request.body){ data['data'] = request.body; };
 
@@ -140,8 +138,8 @@ function api(){
         };
 
         /** If url has no http add api base url */
-        if(url.indexOf('http') < 0){
-            url = Api.config.paths.api + url;
+        if(request.url.indexOf('http') < 0){
+            request.url = Api.config.paths.api + request.url;
         };
 
         /** If there is already cache for the call, return directly the cached response */
