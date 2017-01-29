@@ -31,6 +31,7 @@ The config object is composed by the following items:
 
 Item | Type | Description
 ------------ | ------------- | -------------
+**paths** | Object | Composed by base and api, is the base path to be called by your library
 **dev** | Boolean | dev enable/disable the logs (Errors and warning are shown anyway).
 **ext** | Array | Path for extensions are set here, the extensions are loaded once the init method is called.
 **info**| Object| contain general string info about the library
@@ -62,35 +63,71 @@ Api.call(request/s, [config, callback]);
 Here you can find an example of calls with callbacks and promises (Thanks to [swapi for the data]{@link https://swapi.co/}):
 
 ```javascript
-// Generate an array of 10 requests object 
-var requests = [];
-var i = 1;
-while(i < 11){
-    a.push({
-        url: 'http://swapi.co/api/people/{{id}}/',
-        settings: {
-            crossDomain: true
+
+    /** Callback function example */
+    function makeRequest(){
+
+        /** Create a request istance for the first 10 pages */
+        var requests = [];
+        for(var i = 1; i < 10; i++){
+
+            /** Create a request istance */
+            var request = new Api.build.Request(
+                'people/{{id}}/',
+                {
+                    id: i
+                }
+            );
+
+            /** Add it to requests array */
+            requests.push(request);
+
+        };
+
+        /** Pass requests to get method */
+        Api.get(requests).then(function(response){
+
+            /** This is the callback to successful calls */
+
+            /** Results retrieved */
+            console.info('Results retrieved', response);
+
+        }).catch(function(error){
+
+            /** Errors in calls are catched here */
+
+            /** Results retrieved */
+            console.error('Error occurred', error);
+
+        });
+
+    };
+
+    /** Create Api istance */
+    var Api = api();
+
+    /** Settings */
+    var settings = {
+
+        /** Base paths settings */
+        paths: {
+            base    : '',
+            api     : 'http://swapi.co/api/'
         },
-        params: {
-            id: i
-        }
-    });
-    i++
+
+        /** Set logs to active */
+        dev     : true,
+
+        /** Set extensions with different path */
+        ext     : [
+            '../ext/helpers.js',
+            '../ext/md5.js'
+        ]
+    };
+
+    /** initialize library */
+    Api.init(settings, makeRequest);
 }
-
-// Make the actual request with callbacks
-Api.get(requests, function(response){
-    console.info('That\'s a success!', response);
-}, function(error){
-    console.error('That\'s an error :c', error);
-});
-
-// Make the actual request with promises
-Api.get(requests).then(function(response){
-    console.info('That\'s a success!', response);
-}).catch(function(error){
-    console.error('That\'s an error :c', error);
-});
 ```
 ### Request object ###
 The request object is composed by the following items:
