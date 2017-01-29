@@ -299,7 +299,7 @@ function api(){
         build   : {
 
             /** Request object constructor */
-            Request: function(url, params){
+            Request: function(url, params, body){
 
                 if(!url){
                     console.error(Api.config.info.name + ': At least url must be passed to create Request object.');
@@ -315,7 +315,10 @@ function api(){
                 this['url'] = url;
 
                 /** Set params */
-                if(params){ this['params'] = params };
+                if(params)  { this['params'] = params;  };
+
+                /** Set body */
+                if(body)    { this['body'] = body;      };
 
             }
 
