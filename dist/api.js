@@ -107,26 +107,6 @@ function api(){
     Parse the requests and return the call itself. */
     function parseRequest(request){
 
-        /** Parse Path and Query string parameters */
-        if(request.params){
-
-            /** Check each parameter and populate the url if is a path parameter */
-            for(key in request.params){
-
-                /** Check if the key is in the URL as placeholder */
-                if(Help.checkPlaceholder(key, request.url)){
-                    var placeholder = Help.placeholder(key);
-
-                    /** If is present replace it */
-                    request.url = request.url.replace(placeholder, request.params[key]);
-
-                    /** Remove the param from params and leave only the query string ones */
-                    delete request.params[key];
-                }
-            }
-
-        };
-
         /** If there are params left put them in query string */
         if(request.params){
 
@@ -311,11 +291,31 @@ function api(){
                     url = Api.config.paths.api + url;
                 };
 
-                /** Set url */
-                this['url'] = url;
-
                 /** Set params */
-                if(params)  { this['params'] = params;  };
+                if(params)  {
+
+                    /** Check each parameter and populate the url if is a path parameter */
+                    for(key in params){
+
+                        /** Check if the key is in the URL as placeholder */
+                        if(Help.checkPlaceholder(key, url)){
+                            var placeholder = Help.placeholder(key);
+
+                            /** If is present replace it */
+                            url = url.replace(placeholder, params[key]);
+
+                            /** Remove the param from params and leave only the query string ones */
+                            delete params[key];
+                        };
+                    };
+
+                    /** Assign remaining params */
+                    this['params'] = params;
+
+                };
+
+                /** Set url, after path parameters have been added */
+                this['url'] = url;
 
                 /** Set body */
                 if(body)    { this['body'] = body;      };
