@@ -64,69 +64,69 @@ Here you can find an example of calls with callbacks and promises (Thanks to [sw
 
 ```javascript
 
-    /** Callback function example */
-    function makeRequest(){
+/** Callback function example */
+function makeRequest(){
 
-        /** Create a request istance for the first 10 pages */
-        var requests = [];
-        for(var i = 1; i < 10; i++){
+    /** Create a request istance for the first 10 pages */
+    var requests = [];
+    for(var i = 1; i < 10; i++){
 
-            /** Create a request istance */
-            var request = new Api.build.Request(
-                'people/{{id}}/',
-                {
-                    id: i
-                }
-            );
+        /** Create a request istance */
+        var request = new Api.build.Request(
+            'people/{{id}}/',
+            {
+                id: i
+            }
+        );
 
-            /** Add it to requests array */
-            requests.push(request);
-
-        };
-
-        /** Pass requests to get method */
-        Api.get(requests).then(function(response){
-
-            /** This is the callback to successful calls */
-
-            /** Results retrieved */
-            console.info('Results retrieved', response);
-
-        }).catch(function(error){
-
-            /** Errors in calls are catched here */
-
-            /** Results retrieved */
-            console.error('Error occurred', error);
-
-        });
+        /** Add it to requests array */
+        requests.push(request);
 
     };
 
-    /** Create Api istance */
-    var Api = api();
+    /** Pass requests to get method */
+    Api.get(requests).then(function(response){
 
-    /** Settings */
-    var settings = {
+        /** This is the callback to successful calls */
 
-        /** Base paths settings */
-        paths: {
-            base    : '',
-            api     : 'http://swapi.co/api/'
-        },
+        /** Results retrieved */
+        console.info('Results retrieved', response);
 
-        /** Set logs to active */
-        dev     : true,
+    }).catch(function(error){
 
-        /** Set extensions with different path */
-        ext     : [
-            '../ext/helpers.js',
-            '../ext/md5.js'
-        ]
-    };
+        /** Errors in calls are catched here */
 
-    /** initialize library */
-    Api.init(settings, makeRequest);
+        /** Results retrieved */
+        console.error('Error occurred', error);
+
+    });
+
+};
+
+/** Create Api istance */
+var Api = api();
+
+/** Settings */
+var settings = {
+
+    /** Base paths settings */
+    paths: {
+        base    : '',
+        api     : 'http://swapi.co/api/'
+    },
+
+    /** Set logs to active */
+    dev     : true,
+
+    /** Set extensions with different path */
+    ext     : [
+        '../ext/helpers.js',
+        '../ext/md5.js'
+    ]
+};
+
+/** initialize library */
+Api.init(settings, makeRequest);
 }
 ```
 ### Request object ###
