@@ -122,12 +122,15 @@ function api(){
             request.url = Api.config.paths.api + request.url;
         };
 
+        /** retrive cache if present */
+        var cache = loadCache(request);
+
         /** If there is already cache for the call, return directly the cached response */
-        if(Api.config.settings.cache.enabled && loadCache(request)){
+        if(Api.config.settings.cache.enabled && ){
             var cache = new Promise(function(resolve){
 
                 /** Resolve the promise with the cached response */
-                resolve(loadCache(request));
+                resolve(cache);
 
             });
 
