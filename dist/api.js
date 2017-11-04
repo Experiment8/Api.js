@@ -126,7 +126,7 @@ function api(){
         var cache = loadCache(request);
 
         /** If there is already cache for the call, return directly the cached response */
-        if(Api.config.settings.cache.enabled && ){
+        if(Api.config.settings.cache.enabled){
             var cache = new Promise(function(resolve){
 
                 /** Resolve the promise with the cached response */
@@ -183,6 +183,38 @@ function api(){
 
         return requests;
     };
+
+    /** CALLBACK WRAPPER
+    Wraps the final promises from call method in a promise. */
+    function callbackWrapper (promises, success, error) {
+
+        if (!promises || !promises.length) {
+            console.error(Api.config.info.name + ': No promises passed, aborted callback wrapping.');
+            return Help.fakePromise(true);
+        }
+
+        /** Parse the Promises to launch the callbacks */
+        var callback = new Promise(function(resolve, reject){
+            Promise.all(promises).then(function(response, status, xhr){
+
+                if(success){ success(response, status, xhr); }
+
+                /** Resolve the promise */
+                resolve(response, status, xhr);
+
+            }).catch(function(response, status, xhr){
+
+                if(error){ error(response, status, xhr); }
+
+                /** Resolve the promise */
+                reject(response, status, xhr);
+
+            });
+        });
+
+        return callback;
+
+    }
 
     /** EXTENSIONS
     Initialize extensions of this dependency.
@@ -387,26 +419,9 @@ function api(){
                 promises.push(xhr);
             }
 
-            /** Parse the Promises to launch the callbacks */
-            var callback = new Promise(function(resolve, reject){
-                Promise.all(promises).then(function(response, status, xhr){
+            /** Return the call promise wrapped in another promise */
+            return callbackWrapper(promises, success, error);
 
-                    if(success){ success(response, status, xhr); }
-
-                    /** Resolve the promise */
-                    resolve(response, status, xhr);
-
-                }).catch(function(response, status, xhr){
-
-                    if(error){ error(response, status, xhr); }
-
-                    /** Resolve the promise */
-                    reject(response, status, xhr);
-
-                });
-            });
-
-            return callback;
         },
 
         /** POST
@@ -449,12 +464,8 @@ function api(){
 
             }
 
-            /** Return all the promises */
-            return Promise.all(promises).then(function(response, status, xhr){
-                if(success){ success(response, status, xhr); }
-            }).catch(function(response, status, xhr){
-                if(error){ error(response, status, xhr); }
-            });
+            /** Return the call promise wrapped in another promise */
+            return callbackWrapper(promises, success, error);
 
         },
 
@@ -498,12 +509,8 @@ function api(){
 
             }
 
-            /** Return all the promises */
-            return Promise.all(promises).then(function(response, status, xhr){
-                if(success){ success(response, status, xhr); }
-            }).catch(function(response, status, xhr){
-                if(error){ error(response, status, xhr); }
-            });
+            /** Return the call promise wrapped in another promise */
+            return callbackWrapper(promises, success, error);
 
         },
 
@@ -547,12 +554,8 @@ function api(){
 
             }
 
-            /** Return all the promises */
-            return Promise.all(promises).then(function(response, status, xhr){
-                if(success){ success(response, status, xhr); }
-            }).catch(function(response, status, xhr){
-                if(error){ error(response, status, xhr); }
-            });
+            /** Return the call promise wrapped in another promise */
+            return callbackWrapper(promises, success, error);
 
         },
 
@@ -593,12 +596,8 @@ function api(){
 
             }
 
-            /** Return all the promises */
-            return Promise.all(promises).then(function(response, status, xhr){
-                if(success){ success(response, status, xhr); }
-            }).catch(function(response, status, xhr){
-                if(error){ error(response, status, xhr); }
-            });
+            /** Return the call promise wrapped in another promise */
+            return callbackWrapper(promises, success, error);
         }
 
     };
