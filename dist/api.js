@@ -58,10 +58,10 @@ function api(){
         data['url']    = request.url;
         data['method'] = request.method;
 
-        if(request.accept){         data['accept']        = request.accept; }
-        if(request.contentType){    data['contentType']   = request.contentType; }
+        if(request.accept !== false)         data['accept']        = request.accept || Api.config.settings.accept;
+        if(request.contentType !== false)    data['contentType']   = request.contentType || Api.config.settings.contentType;
 
-        if(request.body){ data['data'] = request.body; };
+        if(request.body){ data['data'] = Api.config.settings.bodyParser(request.body); };
 
         /** Parse headers */
         if(request.headers){
@@ -296,6 +296,9 @@ function api(){
                 /** Default Accept and contentType for AJAX calls */
                 contentType : 'application/json',
                 accept      : 'json',
+
+                /** The function used by default for parsing the body */
+                bodyParser: JSON.stringify,
 
                 /** Caching settings */
                 cache: {
