@@ -1,0 +1,25 @@
+{
+  "name": "api.js",
+  "version": "1.0.0",
+  "description": "A RESTful APIs library, with cache layer and multiple calls threading.",
+  "main": "api.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Experiment8/Api.js.git"
+  },
+  "keywords": [
+    "API",
+    "REST",
+    "Promises"
+  ],
+  "author": "Roberto Lonardi <lonardi.r@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Experiment8/Api.js/issues"
+  },
+  "homepage": "https://github.com/Experiment8/Api.js#readme",
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "js-md5": "^0.7.2"
+  }
+}

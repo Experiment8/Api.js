@@ -1,14 +1,93 @@
 /**
-ROBERTO LONARDI - 2016
-Api.js Async comunication Library.
-API - Javascript Api calls module.
-
-Required libraries for correct working:
-- jQuery > 1.2.0
+@name Api.js
+@description A RESTful APIs library, with cache layer and multiple calls threading.
+@author Roberto Lonardi <lonardi.r@gmail.com>
+@tags API REST Promise Promises
+@version 1.0.0
 */
+
+/** Helpers object */
+var Help = {
+
+    /** Return a fake Promise always resolving immediately */
+    fakePromise: function(success, callback){
+
+        /** Generate a fake xhr Promise */
+        var xhr = new Promise(function(resolve, reject){
+
+                /** If a callback is passed call it */
+                if(callback){ callback(); }
+
+                if(success === true){ resolve(); } else if(success === false){ reject(); }
+
+            });
+
+        /** Return it */
+        return xhr;
+
+    },
+
+    /** Populate a string that contains placeholders */
+    populateString: function(string, data){
+
+        if (!data) {
+            console.error('No data passed, can\'t populate string.');
+            return string;
+        }
+
+        /** Search each placeholder and replace it with the corresponding value */
+        for(key in data){
+            var placeholder = '{{' + key + '}}';
+            var matcher     = new RegExp(placeholder, 'g');
+
+            /** Search for it in the string */
+            if(matcher.test(string)){
+                string = string.replace(placeholder, data[key]);
+            }
+        }
+
+        return string;
+    },
+
+    /** Check for a "{{text}}" type placeholder in certain string, returns false or true */
+    checkPlaceholder: function(string, text){
+
+        /** Populate the RegExp object with the passed string */
+        var filter = '{{' + string + '}}';
+        var regexp = new RegExp(filter, 'g');
+
+        /** Return the result of the match */
+        return regexp.test(text);
+
+    },
+
+    /** Return a placeholder representation of a string */
+    placeholder: function(string){
+        var placeholder = '{{' + string + '}}';
+
+        /** Returns the palceholder */
+        return placeholder;
+
+    },
+
+    /** Returns the passed JSON in query string object */
+    toQueryString: function(object){
+        var query = $.param(object) ? '?' + $.param(object) : '';
+
+        /** Return the query */
+        return query;
+    }
+
+};
 
 /** Dependency constructor */
 function api(){
+
+    /** IMPORTS
+    Import dependencies.
+    ========================================================== */
+    var $   = require('jquery');
+    var md5 = require('js-md5');
 
     /** PRIVATE METHODS
     Private methods are available only from within the dependency.
@@ -332,20 +411,8 @@ function api(){
                 /** Set params */
                 if(params)  {
 
-                    /** Check each parameter and populate the url if is a path parameter */
-                    for(key in params){
-
-                        /** Check if the key is in the URL as placeholder */
-                        if(Help.checkPlaceholder(key, url)){
-                            var placeholder = Help.placeholder(key);
-
-                            /** If is present replace it */
-                            url = url.replace(placeholder, params[key]);
-
-                            /** Remove the param from params and leave only the query string ones */
-                            delete params[key];
-                        };
-                    };
+                    /** Populate the string where possible */
+                    url = Help.populateString(url, params);
 
                     /** Assign remaining params */
                     this['params'] = params;
@@ -356,7 +423,7 @@ function api(){
                 this['url'] = url;
 
                 /** Set body */
-                if(body)    { this['body'] = body;      };
+                if(body) this['body'] = body;
 
             }
 
@@ -377,7 +444,7 @@ function api(){
             initializeExtensions().then(function(){
 
                 /** If init callback is present call it at the init very end */
-                if(callback){ callback(); }
+                if(callback) callback();
 
             });
 
@@ -608,3 +675,6 @@ function api(){
     /** Return dependency prototype. */
     return Api;
 }
+
+/** NPM export */
+module.exports = api;
