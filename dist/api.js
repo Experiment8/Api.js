@@ -677,4 +677,4 @@ function api(){
 }
 
 /** NPM export */
-module.exports = api;
+module.exports = new api();
