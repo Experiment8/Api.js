@@ -2,7 +2,7 @@
   "name": "api.js",
   "version": "1.0.0",
   "description": "A RESTful APIs library, with cache layer and multiple calls threading.",
-  "main": "api.js",
+  "main": "./dist/api.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Experiment8/Api.js.git"
